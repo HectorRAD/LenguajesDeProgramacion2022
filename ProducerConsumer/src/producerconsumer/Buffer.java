@@ -8,16 +8,18 @@ import java.util.concurrent.Semaphore;
 public class Buffer {
     
     private String buffer;
+    private int size;
     javax.swing.JProgressBar jProgressBar1;
     private static Semaphore cSemaphore = new Semaphore(1),
                              pSemaphore = new Semaphore(1);
     private static Double created = 0.0, done = 0.0;
     javax.swing.table.DefaultTableModel pModel;
     
-    Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel) {
+    Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel, int size) {
         this.jProgressBar1 = jProgressBar1;
         this.pModel = pModel;
         this.buffer = null;
+        this.size = size;
     }
     
     synchronized String consume() {

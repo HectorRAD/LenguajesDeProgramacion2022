@@ -230,16 +230,18 @@ public class GUIFrame extends javax.swing.JFrame {
                 rango1=0;
                 numConTiempo=0;
                 numProTiempo=0;
+                numBuffer=0;
                 
                 if(!hasStarted){
                     boolean datosValidos;
+                    StringBuilder errorMessage = new StringBuilder();
                     
                     try { //validar
 			numPro=Integer.parseInt(jSpinner1.getValue().toString());//prodcutor
                         numProTiempo=Integer.parseInt(jTextField1.getText()); //tiempo de espera productor
                         numCon=Integer.parseInt(jSpinner2.getValue().toString());//consumidor
                         numConTiempo=Integer.parseInt(jTextField2.getText()); //tiempo de espera consumidor
-                        numBuffer=Integer.parseInt(jTextField3.getText());//tamaño del buffer
+                        numBuffer=Integer.parseInt(jTextField3.getText());//tamaño del buffer 
                         rango0=Integer.parseInt(jTextField4.getText());//rango de valores
                         rango1=Integer.parseInt(jSpinner3.getValue().toString());
                         datosValidos=true;//los datos si son integers
@@ -247,30 +249,37 @@ public class GUIFrame extends javax.swing.JFrame {
                         if(!(0<=numPro && numPro<=10)){
                             //System.out.println("fallo 1");
                             datosValidos=false;
+                            errorMessage.append("\n Numero de productores no aceptado.");
                         }
                         if(!(0<=numProTiempo && numProTiempo<=10000)){
                             //System.out.println("fallo 2");
                             datosValidos=false;
+                            errorMessage.append("\n Tiempo de espera de productores no aceptado.");
                         }
                         if(!(0<=numCon && numCon<=10)){
                             //System.out.println("fallo 3");
                             datosValidos=false;
+                            errorMessage.append("\n Numero de consumidores no aceptado.");
                         }
                         if(!(0<=numConTiempo && numConTiempo<=10000)){
                             //System.out.println("fallo 4");
                             datosValidos=false;
+                            errorMessage.append("\n Tiempo de espera de consumidores no aceptado.");
                         }
                         if(!(1<=numBuffer && numBuffer<=100)){
                             //System.out.println("fallo 5");
                             datosValidos=false;
+                            errorMessage.append("\n Tamano de Buffer no aceptado.");
                         }
                         if(!(0<=rango0 && rango0<=9)){
                             //System.out.println("fallo 6");
                             datosValidos=false;
+                            errorMessage.append("\n Rango de productores no aceptado.");
                         }
                         if(!(0<=rango1 && rango1<=9)){
                             //System.out.println("fallo 7");
                             datosValidos=false;
+                            errorMessage.append("\n Rango no aceptado.");
                         }
                     }  
                     catch (NumberFormatException exept)  
@@ -293,7 +302,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         System.out.println(hasStarted);
                         hasStarted=true;
                     
-                        buffer = new Buffer(jProgressBar1,model1);      
+                        buffer = new Buffer(jProgressBar1,model1, numBuffer);      
                         
                         producer = new Producer[numPro];
                         consumer = new Consumer[numCon];
@@ -314,8 +323,8 @@ public class GUIFrame extends javax.swing.JFrame {
                         
                         System.out.println("iniciar el trhead");
                     }else{
-                        System.out.println("Datos no validos ");
-                        JOptionPane.showMessageDialog(null, "Datos no validos. \n Por favor revisa tu entrada.");
+                        System.out.println("Datos no validos: " + errorMessage.toString());
+                        JOptionPane.showMessageDialog(null,"Datos no validos: " + errorMessage.toString());
                     }
                 }else{
                     hasStarted=false;
