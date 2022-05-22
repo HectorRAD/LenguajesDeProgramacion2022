@@ -274,12 +274,12 @@ public class GUIFrame extends javax.swing.JFrame {
                         if(!(0<=rango0 && rango0<=9)){
                             //System.out.println("fallo 6");
                             datosValidos=false;
-                            errorMessage.append("\n Rango de productores no aceptado.");
+                            errorMessage.append("\n Elemento n del rango no aceptado.");
                         }
                         if(!(0<=rango1 && rango1<=9)){
                             //System.out.println("fallo 7");
                             datosValidos=false;
-                            errorMessage.append("\n Rango no aceptado.");
+                            errorMessage.append("\n Elemento m del rango no aceptado.");
                         }
                     }  
                     catch (NumberFormatException exept)  

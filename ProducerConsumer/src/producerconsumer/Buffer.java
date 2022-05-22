@@ -4,11 +4,14 @@ package producerconsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.Semaphore;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class Buffer {
     
     private String buffer;
     private int size;
+    private Queue<String> queue;
     javax.swing.JProgressBar jProgressBar1;
     private static Semaphore cSemaphore = new Semaphore(1),
                              pSemaphore = new Semaphore(1);
@@ -20,13 +23,14 @@ public class Buffer {
         this.pModel = pModel;
         this.buffer = null;
         this.size = size;
+        this.queue = new LinkedList<>();
     }
     
     synchronized String consume() {
         String product = null;
-        while(this.buffer == null) {
+        while(this.queue.isEmpty()) {
             try {
-                wait(1000);
+                wait(); //Esperar a que se produzca algo que consumir
             } catch (InterruptedException ex) {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -34,7 +38,8 @@ public class Buffer {
         try {
             cSemaphore.acquire();
             done++;
-            product = this.buffer;
+           //product = this.buffer;
+            product = this.queue.poll();
             int deleteRow = -1;
             int rows = pModel.getRowCount();
             for (int j = 0; j < rows; j++){
@@ -45,7 +50,7 @@ public class Buffer {
             }
             this.pModel.removeRow(deleteRow);
             this.setProgress();
-            this.buffer = null;
+            //this.buffer = null;
             notify();
             cSemaphore.release();
         }catch(Exception e){
@@ -64,9 +69,9 @@ public class Buffer {
     }
     
     synchronized void produce(String product) {
-        while (this.buffer != null){
+        while (this.queue.size()>size){
             try {
-                wait(1000);
+                wait(); //Esperar a que haya espacio para producir
             } catch (InterruptedException ex) {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -76,7 +81,8 @@ public class Buffer {
             pSemaphore.acquire();
             created++;
             this.setProgress();
-            this.buffer = product;
+            //this.buffer = product;
+            this.queue.add(product);
             pSemaphore.release();
             notify();
         }catch(Exception e){
