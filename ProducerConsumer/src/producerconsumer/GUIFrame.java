@@ -21,8 +21,6 @@ public class GUIFrame extends javax.swing.JFrame {
     Buffer buffer;
     boolean hasStarted=false;
     
-    Producer pro;
-    Consumer con;
     
     public GUIFrame() {
         initComponents();
@@ -291,16 +289,22 @@ public class GUIFrame extends javax.swing.JFrame {
         //opcion1
         jButton1.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
+                int numPro,numProTiempo,numCon,numConTiempo,numBuffer,rango0,rango1;
+                numPro=0;
+                numCon=0;
+                rango0=0;
+                rango1=0;
                 if(!hasStarted){
                     boolean datosValidos;
+                    
                     try { //validar
-			int numPro=Integer.parseInt(jSpinner1.getValue().toString());//prodcutor
-                        int numProTiempo=Integer.parseInt(jTextField1.getText());
-                        int numCon=Integer.parseInt(jSpinner2.getValue().toString());//consumidor
-                        int numConTiempo=Integer.parseInt(jTextField2.getText());
-                        int numBuffer=Integer.parseInt(jTextField3.getText());//tamaño del buffer
-                        int rango0=Integer.parseInt(jTextField4.getText());//rango de valores
-                        int rango1=Integer.parseInt(jSpinner3.getValue().toString());
+			numPro=Integer.parseInt(jSpinner1.getValue().toString());//prodcutor
+                        numProTiempo=Integer.parseInt(jTextField1.getText());
+                        numCon=Integer.parseInt(jSpinner2.getValue().toString());//consumidor
+                        numConTiempo=Integer.parseInt(jTextField2.getText());
+                        numBuffer=Integer.parseInt(jTextField3.getText());//tamaño del buffer
+                        rango0=Integer.parseInt(jTextField4.getText());//rango de valores
+                        rango1=Integer.parseInt(jSpinner3.getValue().toString());
                         datosValidos=true;//los datos si son integers
                         
                         if(!(0<=numPro && numPro<=10)){
@@ -353,22 +357,36 @@ public class GUIFrame extends javax.swing.JFrame {
                         hasStarted=true;
                     
                         buffer = new Buffer();      
-                        pro = new Producer(buffer,0,9);
-                        con = new Consumer(buffer);
-                        pro.start();
-                        con.start();
-                        //producer=new Producer[Integer.parseInt(jSpinner1.getValue().toString())];
-                        //consumer=new Consumer[Integer.parseInt(jSpinner2.getValue().toString())];
+                        
+                        producer = new Producer[numPro];
+                        consumer = new Consumer[numCon];
+                        System.out.println(rango0+"_________");
+                        System.out.println(rango1+"_________");
+                        for (int i = 0; i < numPro; i++) {
+                            producer[i]=new Producer(buffer,rango0,rango1);
+                            producer[i].start();
+                        }
+                        
+                        for (int i = 0; i < numCon; i++) {
+                            consumer[i]=new Consumer(buffer);
+                            consumer[i].start();
+                        }
+                        System.out.println(producer.length+"_____________");
+                        System.out.println(consumer.length+"______________");
+                        
+                        
                         System.out.println("iniciar el trhead");
                     }else{
                         System.out.println("Datos no validos ");
                     }
                 }else{
                     hasStarted=false;
-                    pro.interrupt();//marca error 
-                    con.interrupt();//marca error
-                    //pro.stop();
-                    //con.stop();
+                    for (int i = 0; i < numPro; i++) {    
+                        producer[i].stop();
+                    }
+                    for (int i = 0; i < numCon; i++) {    
+                        consumer[i].stop();
+                    }
                     System.out.println("parar el trhead");
                     jButton1.setForeground(new java.awt.Color(0, 102, 51));
                     jButton1.setText("INICIAR");
