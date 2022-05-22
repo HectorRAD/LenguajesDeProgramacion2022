@@ -5,13 +5,13 @@ public class ProducerConsumer {
 
     public static void main(String[] args) {
         
-        Buffer buffer = new Buffer();
+        //Buffer buffer = new Buffer();
         
-        Producer producer = new Producer(buffer,0,9);
-        producer.start();
+       // Producer producer = new Producer(buffer,0,9);
+       // producer.start();
         
-        Consumer consumer = new Consumer(buffer);
-        consumer.start();
+        //Consumer consumer = new Consumer(buffer);
+        //consumer.start();
     }
     
 }

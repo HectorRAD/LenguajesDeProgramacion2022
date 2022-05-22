@@ -6,6 +6,8 @@ package producerconsumer;
 
 //import java.awt.*;  
 import java.awt.event.*;  
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 /**
  *
  * @author sdegante
@@ -148,102 +150,32 @@ public class GUIFrame extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Configuración", jPanel2);
-/*
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+        javax.swing.table.DefaultTableModel model1 = new javax.swing.table.DefaultTableModel(null,
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                 "Producer", "Operation"
             }
-        ));*/
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Producer", "Operation"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        );
+        jTable1.setModel(model1);
+        
         jScrollPane1.setViewportView(jTable1);
-/*
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));*/
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null}
             },
             new String [] {
-                "Consumer", "Operation", "Resultado"
+                 "Consumer", "Operation", "Result"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane2.setViewportView(jTable2);
 
         jLabel7.setText("Tareas por hacer");
 
         jLabel8.setText("Tareas realizadas");
 
-        jProgressBar1.setValue(50);
+        jProgressBar1.setValue(0);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -356,23 +288,23 @@ public class GUIFrame extends javax.swing.JFrame {
                         System.out.println(hasStarted);
                         hasStarted=true;
                     
-                        buffer = new Buffer();      
+                        buffer = new Buffer(jProgressBar1,model1);      
                         
                         producer = new Producer[numPro];
                         consumer = new Consumer[numCon];
-                        System.out.println(rango0+"_________");
-                        System.out.println(rango1+"_________");
+                        //System.out.println(rango0+"_________");
+                        //System.out.println(rango1+"_________");
+                        Semaphore pRowSemaphore = new Semaphore(1);
                         for (int i = 0; i < numPro; i++) {
-                            producer[i]=new Producer(buffer,rango0,rango1);
+                            producer[i]= new Producer(i,buffer,pRowSemaphore,model1, jProgressBar1,rango0,rango1);
                             producer[i].start();
                         }
-                        
                         for (int i = 0; i < numCon; i++) {
-                            consumer[i]=new Consumer(buffer);
+                            consumer[i]= new Consumer(i,buffer, null /*change to model2*/,model1,jProgressBar1);
                             consumer[i].start();
                         }
-                        System.out.println(producer.length+"_____________");
-                        System.out.println(consumer.length+"______________");
+                        //System.out.println(producer.length+"_____________");
+                        //System.out.println(consumer.length+"______________");
                         
                         
                         System.out.println("iniciar el trhead");
