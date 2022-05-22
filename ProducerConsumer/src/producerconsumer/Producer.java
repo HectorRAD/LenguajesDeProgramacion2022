@@ -7,20 +7,30 @@ import java.util.logging.Logger;
 
 public class Producer extends Thread {
     Buffer buffer;
+    String operations;
+    int minValue, 
+        maxValue;
     
-    Producer(Buffer buffer) {
+    Producer(Buffer buffer, String operations, int minValue, int maxValue) {
         this.buffer = buffer;
+        this.operations = operations;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
     }
     
     @Override
     public void run() {
         System.out.println("Running Producer...");
-        String products = "AEIOU";
         Random r = new Random(System.currentTimeMillis());
-        char product;
-        
+        String product;
+        Integer val1,
+                val2;
+        char operation;
         for(int i=0 ; i<5 ; i++) {
-            product = products.charAt(r.nextInt(5));
+            operation = this.operations.charAt(r.nextInt(this.operations.length()));
+            val1 = this.minValue + r.nextInt(this.maxValue + 1);
+            val2 = this.minValue + r.nextInt(this.maxValue + 1);
+            product = "("+operation+" "+val1.toString()+" "+val2.toString()+")";
             this.buffer.produce(product);
             //System.out.println("Producer produced: " + product);
             Buffer.print("Producer produced: " + product);
