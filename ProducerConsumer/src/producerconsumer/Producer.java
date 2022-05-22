@@ -11,9 +11,9 @@ public class Producer extends Thread {
     int minValue, 
         maxValue;
     
-    Producer(Buffer buffer, String operations, int minValue, int maxValue) {
+    Producer(Buffer buffer, int minValue, int maxValue) {
         this.buffer = buffer;
-        this.operations = operations;
+        this.operations = "+-*/";
         this.minValue = minValue;
         this.maxValue = maxValue;
     }

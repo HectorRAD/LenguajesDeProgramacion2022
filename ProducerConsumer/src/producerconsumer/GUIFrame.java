@@ -353,7 +353,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         hasStarted=true;
                     
                         buffer = new Buffer();      
-                        pro = new Producer(buffer,"+-*/",0,9);
+                        pro = new Producer(buffer,0,9);
                         con = new Consumer(buffer);
                         pro.start();
                         con.start();

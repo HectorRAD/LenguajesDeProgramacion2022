@@ -7,7 +7,7 @@ public class ProducerConsumer {
         
         Buffer buffer = new Buffer();
         
-        Producer producer = new Producer(buffer,"+*/-",0,9);
+        Producer producer = new Producer(buffer,0,9);
         producer.start();
         
         Consumer consumer = new Consumer(buffer);
