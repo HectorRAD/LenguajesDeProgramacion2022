@@ -301,10 +301,10 @@ public class GUIFrame extends javax.swing.JFrame {
                     }
                 }else{
                     hasStarted=false;
-                    //pro.interrupt();marca error 
-                    //con.interrupt();marca error
-                    pro.stop();
-                    con.stop();
+                    pro.interrupt();//marca error 
+                    con.interrupt();//marca error
+                    //pro.stop();
+                    //con.stop();
                     System.out.println("parar el trhead");
                     jButton1.setForeground(new java.awt.Color(0, 102, 51));
                     jButton1.setText("INICIAR");
