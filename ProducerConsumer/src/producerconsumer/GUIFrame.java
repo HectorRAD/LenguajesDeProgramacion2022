@@ -21,6 +21,8 @@ public class GUIFrame extends javax.swing.JFrame {
     Buffer buffer;
     boolean hasStarted=false;
     
+    Producer pro;
+    Consumer con;
     
     public GUIFrame() {
         initComponents();
@@ -223,7 +225,7 @@ public class GUIFrame extends javax.swing.JFrame {
         jButton1.setText("INICIAR");
 
         //opcion1
-        /*jButton1.addActionListener(new ActionListener(){  
+        jButton1.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
                 if(!hasStarted){
                     boolean datosValidos;
@@ -235,36 +237,79 @@ public class GUIFrame extends javax.swing.JFrame {
                         int numBuffer=Integer.parseInt(jTextField3.getText());//tamaño del buffer
                         int rango0=Integer.parseInt(jTextField4.getText());//rango de valores
                         int rango1=Integer.parseInt(jSpinner3.getValue().toString());
-                        datosValidos=true;
-                        System.out.println(numPro);
-                        System.out.println(numProTiempo);                    
-                        System.out.println(numCon);
-                        System.out.println(numConTiempo);
-                        System.out.println(numBuffer);
-                        System.out.println(rango0);
-                        System.out.println(rango1);
+                        datosValidos=true;//los datos si son integers
+                        
+                        if(!(0<=numPro && numPro<=10)){
+                            //System.out.println("fallo 1");
+                            datosValidos=false;
+                        }
+                        if(!(0<=numProTiempo && numProTiempo<=10000)){
+                            //System.out.println("fallo 2");
+                            datosValidos=false;
+                        }
+                        if(!(0<=numCon && numCon<=10)){
+                            //System.out.println("fallo 3");
+                            datosValidos=false;
+                        }
+                        if(!(0<=numConTiempo && numConTiempo<=10000)){
+                            //System.out.println("fallo 4");
+                            datosValidos=false;
+                        }
+                        if(!(1<=numBuffer && numBuffer<=100)){
+                            //System.out.println("fallo 5");
+                            datosValidos=false;
+                        }
+                        if(!(0<=rango0 && rango0<=9)){
+                            //System.out.println("fallo 6");
+                            datosValidos=false;
+                        }
+                        if(!(0<=rango1 && rango1<=9)){
+                            //System.out.println("fallo 7");
+                            datosValidos=false;
+                        }
                     }  
                     catch (NumberFormatException exept)  
                     { 
                         datosValidos=false;
                     } 
                     if(datosValidos){//si son validos asignamos y reiniciamos valores en la gui
+                        
+                        jSpinner1.setValue(0);//resetear valores
+                        jSpinner2.setValue(0);
+                        jSpinner3.setValue(0);
+                        jTextField1.setText("");
+                        jTextField2.setText("");
+                        jTextField3.setText("");
+                        jTextField4.setText("");
+                        
+                        jButton1.setForeground(new java.awt.Color(255, 0, 0));
+                        jButton1.setText("Parar");
+                     
+                        System.out.println(hasStarted);
+                        hasStarted=true;
+                    
+                        buffer = new Buffer();      
+                        pro = new Producer(buffer);
+                        con = new Consumer(buffer);
+                        pro.start();
+                        con.start();
+                        //producer=new Producer[Integer.parseInt(jSpinner1.getValue().toString())];
+                        //consumer=new Consumer[Integer.parseInt(jSpinner2.getValue().toString())];
+                        System.out.println("iniciar el trhead");
                     }else{
                         System.out.println("Datos no validos ");
                     }
-                    
-                    System.out.println(hasStarted);
-                    hasStarted=true;
-                    //REINICIAR LOS VALORES
-                    
-                    //TODO
-                    //producer=new Producer[Integer.parseInt(jSpinner1.getValue().toString())];
-                    //consumer=new Consumer[Integer.parseInt(jSpinner2.getValue().toString())];
-                    System.out.println("iniciar el trhead");
                 }else{
+                    hasStarted=false;
+                    //pro.interrupt();marca error 
+                    //con.interrupt();marca error
+                    pro.stop();
+                    con.stop();
                     System.out.println("parar el trhead");
+                    jButton1.setForeground(new java.awt.Color(0, 102, 51));
+                    jButton1.setText("INICIAR");
                 } 
-        }});  */
+        }});  
         
         
         
