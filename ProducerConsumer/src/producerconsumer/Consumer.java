@@ -7,18 +7,20 @@ import java.util.logging.Logger;
 
 public class Consumer extends Thread {
     Buffer buffer;
-    int ID;
+    int ID,
+        waitTime;
     javax.swing.table.DefaultTableModel cModel, pModel;
     javax.swing.JProgressBar jProgressBar1;
     
     
     
-    Consumer(int ID, Buffer buffer,javax.swing.table.DefaultTableModel cModel, javax.swing.table.DefaultTableModel pModel, javax.swing.JProgressBar jProgressBar1) {
+    Consumer(int ID, Buffer buffer,javax.swing.table.DefaultTableModel cModel, javax.swing.table.DefaultTableModel pModel, javax.swing.JProgressBar jProgressBar1, int waitTime) {
         this.buffer = buffer;
         this.ID = ID;
         this.cModel = cModel;
         this.pModel = pModel;
         this.jProgressBar1 = jProgressBar1;
+        this.waitTime = waitTime;
     }
     
     private String solve(char operation, double val1, double val2) {
@@ -56,7 +58,7 @@ public class Consumer extends Thread {
         
         for(int i=0 ; i<5 ; i++) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(waitTime);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
             }

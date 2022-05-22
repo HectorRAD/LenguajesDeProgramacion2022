@@ -14,10 +14,12 @@ public class Producer extends Thread {
     String operations;
     javax.swing.table.DefaultTableModel model;
     int minValue, 
-        maxValue;
+        maxValue,
+        waitTime;
+    
     javax.swing.JProgressBar jProgressBar1;
     
-    Producer(int ID, Buffer buffer, Semaphore rowsemaphore, javax.swing.table.DefaultTableModel model, javax.swing.JProgressBar jProgressBar1, int minValue, int maxValue) {
+    Producer(int ID, Buffer buffer, Semaphore rowsemaphore, javax.swing.table.DefaultTableModel model, javax.swing.JProgressBar jProgressBar1, int minValue, int maxValue, int waitTime) {
         this.ID = ID;
         this.buffer = buffer;
         this.model = model;
@@ -26,6 +28,7 @@ public class Producer extends Thread {
         this.operations = "+-*/";
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.waitTime = waitTime;
     }
     
     @Override
@@ -38,7 +41,7 @@ public class Producer extends Thread {
         char operation;
         for(int i=0 ; i<5 ; i++) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(waitTime);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -8,6 +8,8 @@ package producerconsumer;
 import java.awt.event.*;  
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sdegante
@@ -226,14 +228,17 @@ public class GUIFrame extends javax.swing.JFrame {
                 numCon=0;
                 rango0=0;
                 rango1=0;
+                numConTiempo=0;
+                numProTiempo=0;
+                
                 if(!hasStarted){
                     boolean datosValidos;
                     
                     try { //validar
 			numPro=Integer.parseInt(jSpinner1.getValue().toString());//prodcutor
-                        numProTiempo=Integer.parseInt(jTextField1.getText());
+                        numProTiempo=Integer.parseInt(jTextField1.getText()); //tiempo de espera productor
                         numCon=Integer.parseInt(jSpinner2.getValue().toString());//consumidor
-                        numConTiempo=Integer.parseInt(jTextField2.getText());
+                        numConTiempo=Integer.parseInt(jTextField2.getText()); //tiempo de espera consumidor
                         numBuffer=Integer.parseInt(jTextField3.getText());//tamaño del buffer
                         rango0=Integer.parseInt(jTextField4.getText());//rango de valores
                         rango1=Integer.parseInt(jSpinner3.getValue().toString());
@@ -296,11 +301,11 @@ public class GUIFrame extends javax.swing.JFrame {
                         //System.out.println(rango1+"_________");
                         Semaphore pRowSemaphore = new Semaphore(1);
                         for (int i = 0; i < numPro; i++) {
-                            producer[i]= new Producer(i,buffer,pRowSemaphore,model1, jProgressBar1,rango0,rango1);
+                            producer[i]= new Producer(i,buffer,pRowSemaphore,model1, jProgressBar1,rango0,rango1, numProTiempo);
                             producer[i].start();
                         }
                         for (int i = 0; i < numCon; i++) {
-                            consumer[i]= new Consumer(i,buffer, null /*change to model2*/,model1,jProgressBar1);
+                            consumer[i]= new Consumer(i,buffer, null /*change to model2*/,model1,jProgressBar1, numConTiempo);
                             consumer[i].start();
                         }
                         //System.out.println(producer.length+"_____________");
@@ -310,6 +315,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         System.out.println("iniciar el trhead");
                     }else{
                         System.out.println("Datos no validos ");
+                        JOptionPane.showMessageDialog(null, "Datos no validos. \n Por favor revisa tu entrada.");
                     }
                 }else{
                     hasStarted=false;
