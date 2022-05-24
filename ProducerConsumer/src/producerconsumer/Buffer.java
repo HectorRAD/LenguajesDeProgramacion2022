@@ -60,7 +60,8 @@ public class Buffer {
             for (int j = 0; j < rows; j++){
                 String value = (String) this.pModel.getValueAt(j, 1);
                 if (value.equals(product)){
-                    deleteRow = j;
+                    this.pModel.setValueAt("", j, 0);
+                    this.pModel.setValueAt("", j, 1);
                 }
             }
             //this.pModel.removeRow(deleteRow);
@@ -85,7 +86,7 @@ public class Buffer {
         if(done != 0) this.jSpinner4.setValue(done);
     }
     
-    synchronized void produce(String product) {
+    synchronized void produce(String product, int ID) {
         while (this.queue.size()>size){
             try {
                 wait(); //Esperar a que haya espacio para producir
@@ -100,6 +101,13 @@ public class Buffer {
             this.setProgress();
             //this.buffer = product;
             this.queue.add(product);
+            for (int i = 0; i < this.pModel.getRowCount(); i++){
+                if (this.pModel.getValueAt(i, 1).equals("")) {
+                    this.pModel.setValueAt(ID, i, 0);
+                    this.pModel.setValueAt(product, i, 1);
+                    break;
+                }
+            }
             pSemaphore.release();
             notify();
         }catch(Exception e){

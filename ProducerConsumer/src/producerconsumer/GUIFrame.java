@@ -307,6 +307,13 @@ public class GUIFrame extends javax.swing.JFrame {
                         
                         producer = new Producer[numPro];
                         consumer = new Consumer[numCon];
+
+                        Object[] rows = new Object[numBuffer];
+                        for (int i = 0; i < numBuffer; i++){
+                            rows[i] = new String[] {"",""};
+                            model1.addRow(new String[] {"",""});
+                        }
+                        
                         //System.out.println(rango0+"_________");
                         //System.out.println(rango1+"_________");
                         Semaphore pRowSemaphore = new Semaphore(1);

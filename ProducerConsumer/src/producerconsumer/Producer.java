@@ -52,10 +52,10 @@ public class Producer extends Thread {
             //val2 = this.minValue + r.nextInt(this.maxValue + 1);//viejo
             product = "("+operation+" "+val1.toString()+" "+val2.toString()+")";
             try {        
-                this.rowsemaphore.acquire();
+                /* this.rowsemaphore.acquire();
                 this.model.addRow(new Object[]{this.ID,product});
-                this.rowsemaphore.release();
-                this.buffer.produce(product);
+                this.rowsemaphore.release();*/
+                this.buffer.produce(product, this.ID); 
                 Buffer.print("Producer produced: " + product);
             }catch(Exception e){
                 System.out.println(e.toString());
