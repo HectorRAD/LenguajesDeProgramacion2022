@@ -284,6 +284,10 @@ public class GUIFrame extends javax.swing.JFrame {
                             datosValidos=false;
                             errorMessage.append("\n Elemento m del rango no aceptado.");
                         }
+                        if(rango0>=rango1){
+                           datosValidos=false;
+                           errorMessage.append("\n El rango 0 no puede ser mayor o igual al rango 1.");
+                        }
                     }  
                     catch (NumberFormatException exept)  
                     { 
