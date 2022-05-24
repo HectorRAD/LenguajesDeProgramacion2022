@@ -13,17 +13,22 @@ public class Buffer {
     private int size;
     private Queue<String> queue;
     javax.swing.JProgressBar jProgressBar1;
+    javax.swing.JSpinner jSpinner4;
     private static Semaphore cSemaphore = new Semaphore(1),
                              pSemaphore = new Semaphore(1);
     private static Double created = 0.0, done = 0.0;
-    javax.swing.table.DefaultTableModel pModel;
+    javax.swing.table.DefaultTableModel pModel,
+                                        pModel2;
     
-    Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel, int size) {
+    
+    Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel, int size, javax.swing.JSpinner jSpinner4, javax.swing.table.DefaultTableModel pModel2) {
         this.jProgressBar1 = jProgressBar1;
         this.pModel = pModel;
         this.buffer = null;
         this.size = size;
         this.queue = new LinkedList<>();
+        this.jSpinner4 = jSpinner4;
+        this.pModel2 = pModel2;
     }
     
     synchronized String consume() {
@@ -38,7 +43,7 @@ public class Buffer {
         try {
             cSemaphore.acquire();
             done++;
-           //product = this.buffer;
+            //product = this.buffer;
             product = this.queue.poll();
             int deleteRow = -1;
             int rows = pModel.getRowCount();
@@ -66,6 +71,7 @@ public class Buffer {
         Double percent = done / created * 100;
         if(done != 0)System.out.println(percent);
         if(done != 0)this.jProgressBar1.setValue((int)Math.round(percent));
+        if(done != 0) this.jSpinner4.setValue(done);
     }
     
     synchronized void produce(String product) {

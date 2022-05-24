@@ -56,7 +56,7 @@ public class Consumer extends Thread {
         
         String product;
         
-        for(int i=0 ; i<5 ; i++) {
+        while(!this.isInterrupted()){
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ex) {

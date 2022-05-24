@@ -160,7 +160,8 @@ public class GUIFrame extends javax.swing.JFrame {
         jTable1.setModel(model1);
         
         jScrollPane1.setViewportView(jTable1);
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        
+        javax.swing.table.DefaultTableModel model2 = new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -170,7 +171,9 @@ public class GUIFrame extends javax.swing.JFrame {
             new String [] {
                  "Consumer", "Operation", "Result"
             }
-        ));
+        );
+        jTable2.setModel(model2);
+        
         jScrollPane2.setViewportView(jTable2);
 
         jLabel7.setText("Tareas por hacer");
@@ -302,7 +305,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         System.out.println(hasStarted);
                         hasStarted=true;
                     
-                        buffer = new Buffer(jProgressBar1,model1, numBuffer);      
+                        buffer = new Buffer(jProgressBar1, model1, numBuffer, jSpinner4, model2);      
                         
                         producer = new Producer[numPro];
                         consumer = new Consumer[numCon];
@@ -328,12 +331,19 @@ public class GUIFrame extends javax.swing.JFrame {
                     }
                 }else{
                     hasStarted=false;
-                    for (int i = 0; i < numPro; i++) {    
-                        producer[i].stop();
+                    /*for (int i = 0; i < numPro; i++) {    
+                        producer[i].interrupt();
                     }
                     for (int i = 0; i < numCon; i++) {    
-                        consumer[i].stop();
+                        consumer[i].interrupt();
+                    }*/
+                     for(Consumer c : consumer){
+                        c.stop();
+                     }
+                    for(Producer p : producer){
+                        p.stop();
                     }
+                    
                     System.out.println("parar el trhead");
                     jButton1.setForeground(new java.awt.Color(0, 102, 51));
                     jButton1.setText("INICIAR");

@@ -39,7 +39,7 @@ public class Producer extends Thread {
         Integer val1,
                 val2;
         char operation;
-        for(int i=0 ; i<5 ; i++) {
+        while(!this.isInterrupted()) {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException ex) {
