@@ -33,7 +33,7 @@ public class Producer extends Thread {
     
     @Override
     public void run() {
-        System.out.println("Running Producer...");
+        //System.out.println("Running Producer...");
         Random r = new Random(System.currentTimeMillis());
         String product;
         Integer val1,
@@ -56,7 +56,7 @@ public class Producer extends Thread {
                 this.model.addRow(new Object[]{this.ID,product});
                 this.rowsemaphore.release();*/
                 this.buffer.produce(product, this.ID); 
-                Buffer.print("Producer produced: " + product);
+                //Buffer.print("Producer produced: " + product);
             }catch(Exception e){
                 System.out.println(e.toString());
             }

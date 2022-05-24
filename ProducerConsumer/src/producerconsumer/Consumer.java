@@ -51,7 +51,7 @@ public class Consumer extends Thread {
     
     @Override
     public void run() {
-        System.out.println("Running Consumer...");
+        //System.out.println("Running Consumer...");
         
         String product;
         
@@ -64,7 +64,7 @@ public class Consumer extends Thread {
             
             try {  
                 product = this.buffer.consume();
-                Buffer.print("Consumer consumed: " + product);
+                //Buffer.print("Consumer consumed: " + product);
                 String[] opComponents = product.substring(1,product.length()-1).split(" ");
                 String result = solve(opComponents[0].charAt(0), Double.parseDouble(opComponents[1]), Double.parseDouble(opComponents[2]));
                 this.cModel.addRow(new Object[]{this.ID,product,result});

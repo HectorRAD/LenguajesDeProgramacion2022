@@ -78,10 +78,10 @@ public class Buffer {
     }
     
     public void setProgress(){
-        System.out.println(created+" C");
-        System.out.println(done+" D");
+        //System.out.println(created+" C");
+        //System.out.println(done+" D");
         Double percent = done / created * 100;
-        if(done != 0)System.out.println(percent);
+        //if(done != 0)System.out.println(percent);
         if(done != 0)this.jProgressBar1.setValue((int)Math.round(percent));
         if(done != 0) this.jSpinner4.setValue(done);
     }

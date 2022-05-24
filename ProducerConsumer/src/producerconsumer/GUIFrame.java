@@ -288,7 +288,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         datosValidos=false;
                     } 
                     if(datosValidos){//si son validos asignamos y reiniciamos valores en la gui
-                        System.out.println("DATOS VALIDADOS");
+                        //System.out.println("DATOS VALIDADOS");
                         jSpinner1.setValue(0);//resetear valores
                         jSpinner2.setValue(0);
                         jSpinner3.setValue(0);
@@ -300,7 +300,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         jButton1.setForeground(new java.awt.Color(255, 0, 0));
                         jButton1.setText("Parar");
                      
-                        System.out.println(hasStarted);
+                        //System.out.println(hasStarted);
                         hasStarted=true;
                     
                         buffer = new Buffer(jProgressBar1, model1, numBuffer, jSpinner4, model2);      
@@ -321,7 +321,7 @@ public class GUIFrame extends javax.swing.JFrame {
                             producer[i]= new Producer(i,buffer,pRowSemaphore,model1, jProgressBar1,rango0,rango1, numProTiempo);
                             producer[i].start();
                         }
-                        System.out.println("_______");
+                        //System.out.println("_______");
                         for (int i = 0; i < numCon; i++) {
                             consumer[i]= new Consumer(i,buffer,model2,jProgressBar1, numConTiempo);
                             consumer[i].start();
@@ -330,9 +330,9 @@ public class GUIFrame extends javax.swing.JFrame {
                         //System.out.println(consumer.length+"______________");
                         
                         
-                        System.out.println("iniciar el trhead");
+                        //System.out.println("iniciar el trhead");
                     }else{
-                        System.out.println("Datos no validos: " + errorMessage.toString());
+                        //System.out.println("Datos no validos: " + errorMessage.toString());
                         JOptionPane.showMessageDialog(null,"Datos no validos: " + errorMessage.toString());
                     }
                 }else{
@@ -350,7 +350,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         p.stop();
                     }
                     
-                    System.out.println("parar el trhead");
+                    //System.out.println("parar el trhead");
                     
                     
                     model1.setRowCount(0);
