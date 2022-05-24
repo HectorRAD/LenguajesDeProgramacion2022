@@ -27,6 +27,8 @@ public class Buffer {
         jSpinner4.setValue(0);
         jProgressBar1.setValue(0);
         queue.clear();
+        if (cSemaphore.availablePermits() == 0) cSemaphore.release();
+        if (pSemaphore.availablePermits() == 0) pSemaphore.release();
     }
     
     public Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel, int size, javax.swing.JSpinner jSpinner4, javax.swing.table.DefaultTableModel pModel2) {
