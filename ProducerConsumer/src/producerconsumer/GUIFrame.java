@@ -161,13 +161,7 @@ public class GUIFrame extends javax.swing.JFrame {
         
         jScrollPane1.setViewportView(jTable1);
         
-        javax.swing.table.DefaultTableModel model2 = new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
+        javax.swing.table.DefaultTableModel model2 = new javax.swing.table.DefaultTableModel(null,
             new String [] {
                  "Consumer", "Operation", "Result"
             }
@@ -321,7 +315,7 @@ public class GUIFrame extends javax.swing.JFrame {
                             producer[i].start();
                         }
                         for (int i = 0; i < numCon; i++) {
-                            consumer[i]= new Consumer(i,buffer, null /*change to model2*/,model1,jProgressBar1, numConTiempo);
+                            consumer[i]= new Consumer(i,buffer,model2,jProgressBar1, numConTiempo);
                             consumer[i].start();
                         }
                         //System.out.println(producer.length+"_____________");

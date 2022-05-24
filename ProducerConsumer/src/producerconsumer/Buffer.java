@@ -53,7 +53,7 @@ public class Buffer {
                     deleteRow = j;
                 }
             }
-            this.pModel.removeRow(deleteRow);
+            //this.pModel.removeRow(deleteRow);
             this.setProgress();
             //this.buffer = null;
             notify();

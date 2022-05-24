@@ -9,16 +9,15 @@ public class Consumer extends Thread {
     Buffer buffer;
     int ID,
         waitTime;
-    javax.swing.table.DefaultTableModel cModel, pModel;
+    javax.swing.table.DefaultTableModel cModel;
     javax.swing.JProgressBar jProgressBar1;
     
     
     
-    Consumer(int ID, Buffer buffer,javax.swing.table.DefaultTableModel cModel, javax.swing.table.DefaultTableModel pModel, javax.swing.JProgressBar jProgressBar1, int waitTime) {
+    Consumer(int ID, Buffer buffer,javax.swing.table.DefaultTableModel cModel, javax.swing.JProgressBar jProgressBar1, int waitTime) {
         this.buffer = buffer;
         this.ID = ID;
         this.cModel = cModel;
-        this.pModel = pModel;
         this.jProgressBar1 = jProgressBar1;
         this.waitTime = waitTime;
     }
@@ -62,11 +61,17 @@ public class Consumer extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            product = this.buffer.consume();
-            Buffer.print("Consumer consumed: " + product);
-            String[] opComponents = product.substring(1,product.length()-1).split(" ");
-            String result = solve(opComponents[0].charAt(0), Double.parseDouble(opComponents[1]), Double.parseDouble(opComponents[2]));
+            
+            try {  
+                product = this.buffer.consume();
+                Buffer.print("Consumer consumed: " + product);
+                String[] opComponents = product.substring(1,product.length()-1).split(" ");
+                String result = solve(opComponents[0].charAt(0), Double.parseDouble(opComponents[1]), Double.parseDouble(opComponents[2]));
+                this.cModel.addRow(new Object[]{this.ID,product,result});
             //System.out.println(result); 
+            }catch(Exception e){
+               System.out.println(e.toString());
+            }
         }
     }
 }
