@@ -46,8 +46,10 @@ public class Producer extends Thread {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
             }
             operation = this.operations.charAt(r.nextInt(this.operations.length()));
-            val1 = this.minValue + r.nextInt(this.maxValue + 1);
-            val2 = this.minValue + r.nextInt(this.maxValue + 1);
+            val1 = (int)(Math.random()*(this.maxValue-this.minValue+1)+ this.minValue);
+            val2 = (int)(Math.random()*(this.maxValue-this.minValue+1)+ this.minValue);
+            //val1 = this.minValue + r.nextInt(this.maxValue + 1);//viejo
+            //val2 = this.minValue + r.nextInt(this.maxValue + 1);//viejo
             product = "("+operation+" "+val1.toString()+" "+val2.toString()+")";
             try {        
                 this.rowsemaphore.acquire();

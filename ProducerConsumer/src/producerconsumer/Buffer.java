@@ -20,8 +20,16 @@ public class Buffer {
     javax.swing.table.DefaultTableModel pModel,
                                         pModel2;
     
+    public void reiniciar(){
+        done=0.0;
+        created=0.0;
+        size=0;
+        jSpinner4.setValue(0);
+        jProgressBar1.setValue(0);
+        queue.clear();
+    }
     
-    Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel, int size, javax.swing.JSpinner jSpinner4, javax.swing.table.DefaultTableModel pModel2) {
+    public Buffer(javax.swing.JProgressBar jProgressBar1, javax.swing.table.DefaultTableModel pModel, int size, javax.swing.JSpinner jSpinner4, javax.swing.table.DefaultTableModel pModel2) {
         this.jProgressBar1 = jProgressBar1;
         this.pModel = pModel;
         this.buffer = null;

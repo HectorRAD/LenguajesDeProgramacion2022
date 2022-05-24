@@ -288,7 +288,7 @@ public class GUIFrame extends javax.swing.JFrame {
                         datosValidos=false;
                     } 
                     if(datosValidos){//si son validos asignamos y reiniciamos valores en la gui
-                        
+                        System.out.println("DATOS VALIDADOS");
                         jSpinner1.setValue(0);//resetear valores
                         jSpinner2.setValue(0);
                         jSpinner3.setValue(0);
@@ -314,6 +314,7 @@ public class GUIFrame extends javax.swing.JFrame {
                             producer[i]= new Producer(i,buffer,pRowSemaphore,model1, jProgressBar1,rango0,rango1, numProTiempo);
                             producer[i].start();
                         }
+                        System.out.println("_______");
                         for (int i = 0; i < numCon; i++) {
                             consumer[i]= new Consumer(i,buffer,model2,jProgressBar1, numConTiempo);
                             consumer[i].start();
@@ -343,6 +344,16 @@ public class GUIFrame extends javax.swing.JFrame {
                     }
                     
                     System.out.println("parar el trhead");
+                    
+                    
+                    model1.setRowCount(0);
+                    model2.setRowCount(0);
+
+                    producer = new Producer[0];
+                    consumer = new Consumer[0];
+                    
+                    buffer.reiniciar();
+                    
                     jButton1.setForeground(new java.awt.Color(0, 102, 51));
                     jButton1.setText("INICIAR");
                 } 
