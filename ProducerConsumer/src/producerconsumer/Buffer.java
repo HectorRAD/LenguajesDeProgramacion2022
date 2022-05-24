@@ -70,6 +70,7 @@ public class Buffer {
             cSemaphore.release();
         }catch(Exception e){
             System.out.println(e.toString());
+            cSemaphore.release();
         }
        
         return product;
@@ -103,6 +104,7 @@ public class Buffer {
             notify();
         }catch(Exception e){
             System.out.println(e.toString());
+            pSemaphore.release();
         }
     }
     
